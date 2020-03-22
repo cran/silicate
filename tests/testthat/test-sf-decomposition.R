@@ -16,6 +16,8 @@ test_that("geometrycollection decomposition works", {
   dplyr::bind_rows(lapply(sfgc, sc_path)) %>%
   expect_s3_class("tbl_df") %>%
     expect_named(c("nrow", "ncol", "type", "path_", "subobject"))
+  
+  expect_silent( sc_path(silicate::sfgc))
 })
 
 test_that("sf decomposition works", {
@@ -33,7 +35,7 @@ test_that("object and path names as expected", {
    expect_true("layer" %in%                              names(sc_object(obj)))
    expect_true(all(c("arc_", "ncoords_") %in%               names(sc_arc(obj))))
    expect_true(all(c("x_", "y_") %in%                      names(sc_coord(obj))))
-   expect_true(all(c(".vx0", ".vx1", "object_") %in% names(sc_edge(obj))))
+   expect_true(all(c(".vx0", ".vx1") %in% names(sc_edge(obj))))
    expect_equal("vertex_",                                       names(sc_node(obj)))
    expect_true(all(c("object_", "path_", "ncoords_") %in%  names(sc_path(obj))))
    expect_true(all(c(".vx0", ".vx1",

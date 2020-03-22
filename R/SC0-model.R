@@ -124,7 +124,6 @@ SC0.default <- function(x, ...) {
                                             coord = row_number())
 
   object <- sc_object(x)
-
   if (length(unique(instances$path)) == nrow(instances)) {
     ## we are only points
     #   stop(sprintf("no segments/edges found in object of class %s", class(x)))
@@ -137,12 +136,12 @@ SC0.default <- function(x, ...) {
       dplyr::mutate(.cx0 = .data$coord,   ## specify in segment terms
                     .cx1 = .data$coord + 1L) %>%
       dplyr::group_by(.data$path) %>% dplyr::slice(-dplyr::n()) %>% dplyr::ungroup() %>%
-      dplyr::transmute(.data$.cx0, .data$.cx1, .data$path, .data$object)
+      dplyr::transmute(.data$.cx0, .data$.cx1, path_ = .data$path, .data$object)
 
     segs[[".vx0"]] <- instances$vertex_[match(segs$.cx0, instances$coord)]
     segs[[".vx1"]] <- instances$vertex_[match(segs$.cx1, instances$coord)]
     ## but udata$.idx0 has the vertices, with .idx0 as the mapping
-    object$topology_ <- split(segs[c(".vx0", ".vx1")], segs$object)
+    object$topology_ <- split(segs[c(".vx0", ".vx1", "path_")], segs$object)
 
   }
   meta <- tibble(proj = get_projection(x), ctime = Sys.time())
@@ -165,11 +164,15 @@ SC0.SC0 <- function(x, ...) {
 SC0.TRI <- function(x, ...) {
   ## this should be SC0(TRI0(x))
   triangle <- x$triangle
-  triangle[c(".vx0", ".vx1", ".vx2")] <- matrix(match(unlist(  triangle[c(".vx0", ".vx1", ".vx2")]), x$vertex$vertex_), ncol = 3)
+  tritri <- matrix(match(unlist(  triangle[c(".vx0", ".vx1", ".vx2")]), x$vertex$vertex_), ncol = 3)
+  triangle[[".vx0"]] <- tritri[,1L, drop = TRUE]
+  triangle[[".vx1"]] <- tritri[,2L, drop = TRUE]
+  triangle[[".vx2"]] <- tritri[,3L, drop = TRUE]
+  
   triangle_list <- split(triangle, triangle$object_)[unique(triangle$object_)]
   top <- vector("list", length(triangle_list))
   for (i in seq_along(triangle_list)) {
-    top[[i]] <- purrr::map_df(purrr::transpose(triangle_list[[1]]),
+    top[[i]] <- purrr::map_df(purrr::transpose(triangle_list[[i]]),
                               ~tibble::as_tibble(matrix(tri_to_seg(unlist(.x[c(".vx0", ".vx1", ".vx2")])), ncol = 2, byrow = TRUE, dimnames = list(NULL, c(".vx0", ".vx1")))))
   }
   object <- sc_object(x)
