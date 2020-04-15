@@ -19,6 +19,19 @@
 sc_path <- function(x, ...) {
   UseMethod("sc_path")
 }
+
+#' @name sc_path
+#' @export
+sc_path.list <- function(x, ids = NULL, ...) {
+  ## check we aren't an unclass sfc list
+  if (inherits(x[[1]], "sfg")) {
+    return(sc_path.sfc(x, ids = ids))
+  } else {
+    out <- try(sc_path.default(x), silent = TRUE)
+    if (inherits(out, "try-error")) stop("cannot determine coords from 'x'")
+  }
+  out
+}
 #' @name sc_path
 #' @export
 sc_path.default <- function(x, ...) {
@@ -35,14 +48,23 @@ sc_path.PATH <- function(x, ...) {
 #' @name sc_path
 #' @export
 sc_path.PATH0 <- function(x, ...) {
-  tidyr::unnest(x[["object"]]["path_"], cols= c(.data$path_)) %>%
+  do.call(rbind, x$object$path_) %>%
     dplyr::group_by(.data$object_, .data$path_, .data$subobject) %>%
     dplyr::summarize(ncoords_ = dplyr::n()) %>% ungroup()
 }
 #' @name sc_path
 #' @export
 sc_path.ARC <- function(x, ...) {
-  stop("sc_path not yet supported for ARC")
+  ## arcs are paths from this perspective,
+  ## and are each an object (so LINESTRING)
+  arcs <- x$arc_link_vertex %>%
+    dplyr::group_by(.data$arc_) %>% dplyr::tally()
+  #arcs <- arcs[match(arcs$arc_, unique(x$object_link_arc$arc_)), ]\
+
+  tibble(ncol = 2L, type = "LINESTRING",
+         subobject = 1L, object_ = arcs$arc_,
+         #object_ = x$object_link_arc$object_[match(arcs$arc_, x$object_link_arc$arc_)],
+         path_ = arcs$arc_, ncoords_ = arcs$n)
 }
 #' @name sc_path
 #' @export

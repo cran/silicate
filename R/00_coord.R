@@ -40,11 +40,43 @@ r_coords <- function(x) {
   tibble::as_tibble(x)[!nas, ]
 }
 
+## -- from anglr, suited for a data frame
+maybe_geom_column <- function(x, ...) {
+  names(x)[purrr::map_lgl(x, ~ inherits(.x, "list"))]
+}
+
+check_is_geom_column <- function(x, ...) {
+  any(class(x[[1]]) == "sfg")
+}
+
+#' @name sc_coord
+#' @export
+sc_coord.list <- function(x, ...) {
+  ## before we bail out to sc_coord.default, check if this is an unclass sfc
+  if (inherits(x[[1]], "sfg")) {
+    ## assume it is a sfc
+    return(sc_coord.sfc(x))
+  } else {
+    out <- try(sc_coord.default(x), silent = TRUE)
+  }
+  if (inherits(out, "try-error")) {
+    stop("cannot interpret coords from 'x'")
+  }
+  out
+}
 #' @name sc_coord
 #' @export
 sc_coord.default <- function(x, ...){
   if (is.null(x[["coord"]]) || !inherits(x[["coord"]], "data.frame")) {
     if (is.list(x)) x <- tibble::as_tibble(x)
+    geo <- maybe_geom_column(x)
+    if (length(geo) > 0) {
+      if (check_is_geom_column(x[[geo]])) {
+      return(sc_coord(x[[geo]]))
+      } else {
+        stop("cannot find coords")
+      }
+    }
     ## we might xy.coords
     if (is_r_coords(x)) x <- r_coords(x)
   } else {
@@ -62,7 +94,13 @@ sc_coord.matrix <- function(x, ...){
 }
 
 
-
+#' @name sc_coord
+#' @export
+sc_coord.ARC <- function(x, ...) {
+  x$arc_link_vertex %>%
+    dplyr::inner_join(sc_vertex(x), "vertex_") %>%
+    dplyr::select(-.data$arc_, -.data$vertex_)
+}
 #' @name sc_coord
 #' @export
 #' @importFrom rlang .data
@@ -80,13 +118,14 @@ sc_coord.TRI <- function(x, ...) {
 #' @name sc_coord
 #' @export
 sc_coord.PATH0 <- function(x, ...) {
-  x[["vertex"]][tidyr::unnest(x[["object"]]["path_"], cols = .data$path_)[["vertex_"]], ]
+  x[["vertex"]][do.call(rbind, x$object$path_)[["vertex_"]], ]
 }
 #' @name sc_coord
 #' @export
-#' @importFrom tidyr unnest
 sc_coord.SC0 <- function(x, ...) {
-  x[["vertex"]][as.vector(t(as.matrix(tidyr::unnest(x$object["topology_"], cols = c(.data$topology_))))), ]
+  id <- do.call(rbind, x$object[["topology_"]])[c(".vx0", ".vx1")]
+
+  x[["vertex"]][as.vector(t(as.matrix(id))), ]
 }
 #' @name sc_coord
 #' @export
@@ -226,7 +265,9 @@ sc_coord.POINT <- sc_coord.LINESTRING
 #' @name sc_coord
 #' @importFrom stats setNames
 sc_coord.Spatial <- function(x, ...) {
-  stats::setNames(tibble::as_tibble(do.call(rbind, lapply(.sp_get_geometry(x), sc_coord))), c("x_", "y_"))
+  mat <- do.call(rbind, lapply(.sp_get_geometry(x), sc_coord))
+  colnames(mat) <- c("x_", "y_")
+  tibble::as_tibble(mat)
 }
 #' @name sc_coord
 #' @export
