@@ -85,7 +85,19 @@ sc_coord.default <- function(x, ...){
 
   x
 }
+#' @name sc_coord
+#' @export
+sc_coord.sfc_TIN <- function(x, ...) {
+  #dm <- dim(x[[1]][[1]][[1]])
+  out <- do.call(rbind, unlist(unlist(x, recursive = FALSE), recursive = FALSE))
+  if (dim(out)[2L] == 3L) {
+    colnames(out) <- c("x_", "y_", "z_")
+  } else {
+    colnames(out) <- c("x_", "y_")
+  }
+  tibble::as_tibble(out)
 
+}
 
 #' @name sc_coord
 #' @export
@@ -183,6 +195,14 @@ sc_geom_names <- function(gnames) {
 }
 sfcoords <- function(x, ...) as.data.frame(m_v(x))
 
+#' @name sc_coord
+#' @export
+sc_coord.sfc_GEOMETRYCOLLECTION <- function(x, ...) {
+  colnames0 <- sc_geom_names(sf_geom_names(x[[1]]))
+  mat <- do.call(rbind, lapply(x, function(y) do.call(rbind, lapply(unclass(y), function(a) do.call(rbind, a)))))
+  colnames(mat) <- colnames0
+  tibble::as_tibble(mat)
+}
 
 # these are short-cut methods for single-type sets
 #' @export
