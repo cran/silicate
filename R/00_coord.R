@@ -67,6 +67,7 @@ sc_coord.list <- function(x, ...) {
 #' @name sc_coord
 #' @export
 sc_coord.default <- function(x, ...){
+  if (inherits(x, "Spatial")) return(sc_coord.Spatial(x))
   if (is.null(x[["coord"]]) || !inherits(x[["coord"]], "data.frame")) {
     if (is.list(x)) x <- tibble::as_tibble(x)
     geo <- maybe_geom_column(x)
@@ -85,19 +86,7 @@ sc_coord.default <- function(x, ...){
 
   x
 }
-#' @name sc_coord
-#' @export
-sc_coord.sfc_TIN <- function(x, ...) {
-  #dm <- dim(x[[1]][[1]][[1]])
-  out <- do.call(rbind, unlist(unlist(x, recursive = FALSE), recursive = FALSE))
-  if (dim(out)[2L] == 3L) {
-    colnames(out) <- c("x_", "y_", "z_")
-  } else {
-    colnames(out) <- c("x_", "y_")
-  }
-  tibble::as_tibble(out)
 
-}
 
 #' @name sc_coord
 #' @export
@@ -161,9 +150,18 @@ sc_coord.sf <- function(x, ...) {
 #' @name sc_coord
 #' @export
 sc_coord.sfc <- function(x,  ...) {
-  x <- lapply(x, sc_coord)
-  dplyr::bind_rows(x)
+  #do.call(rbind, lapply(x, sc_coord))
+  dplyr::bind_rows(lapply(x, sc_coord))
 
+}
+
+
+#' @name sc_coord
+#' @export
+sc_coord.pslg <- function(x, ...) {
+  ## assume segments are of interest
+  m <- x$P[t(x$S), ]
+  tibble::tibble(x_ = m[,1L], y_ = m[,2L])
 }
 
 
@@ -195,14 +193,11 @@ sc_geom_names <- function(gnames) {
 }
 sfcoords <- function(x, ...) as.data.frame(m_v(x))
 
-#' @name sc_coord
-#' @export
-sc_coord.sfc_GEOMETRYCOLLECTION <- function(x, ...) {
-  colnames0 <- sc_geom_names(sf_geom_names(x[[1]]))
-  mat <- do.call(rbind, lapply(x, function(y) do.call(rbind, lapply(unclass(y), function(a) do.call(rbind, a)))))
-  colnames(mat) <- colnames0
-  tibble::as_tibble(mat)
-}
+
+
+split_mat <- function(x) setNames(split(x, rep(seq_len(dim(x)[2]),
+                                               each = dim(x)[1])), c("x_", "y_"))
+
 
 # these are short-cut methods for single-type sets
 #' @export
@@ -210,14 +205,17 @@ sc_coord.sfc_MULTIPOLYGON <- function(x, ...) {
   colnames0 <- sc_geom_names(sf_geom_names(x[[1]]))
   mat <- do.call(rbind, lapply(x, function(y) do.call(rbind, lapply(unclass(y), function(a) do.call(rbind, a)))))
   colnames(mat) <- colnames0
-  tibble::as_tibble(mat)
+  sm <- split_mat(mat)
+  tibble::new_tibble(sm, nrow = length(sm[[1L]]))
+
 }
 #' @export
 sc_coord.sfc_MULTILINESTRING <- sc_coord.sfc_POLYGON <- function(x, ...) {
   colnames0 <- sc_geom_names(sf_geom_names(x[[1]]))
   mat <- do.call(rbind, lapply(x, function(y) do.call(rbind, unclass(y))))
   colnames(mat) <- colnames0
-  tibble::as_tibble(mat)
+  sm <- split_mat(mat)
+  tibble::new_tibble(sm, nrow = length(sm[[1L]]))
 }
 #' @export
 sc_coord.sfc_LINESTRING <- sc_coord.sfc_MULTIPOINT <- function(x, ...) {

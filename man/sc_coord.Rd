@@ -4,7 +4,6 @@
 \alias{sc_coord}
 \alias{sc_coord.list}
 \alias{sc_coord.default}
-\alias{sc_coord.sfc_TIN}
 \alias{sc_coord.matrix}
 \alias{sc_coord.ARC}
 \alias{sc_coord.PATH}
@@ -14,7 +13,7 @@
 \alias{sc_coord.SC}
 \alias{sc_coord.sf}
 \alias{sc_coord.sfc}
-\alias{sc_coord.sfc_GEOMETRYCOLLECTION}
+\alias{sc_coord.pslg}
 \alias{sc_coord.MULTIPOLYGON}
 \alias{sc_coord.POLYGON}
 \alias{sc_coord.MULTILINESTRING}
@@ -31,8 +30,6 @@ sc_coord(x, ...)
 \method{sc_coord}{list}(x, ...)
 
 \method{sc_coord}{default}(x, ...)
-
-\method{sc_coord}{sfc_TIN}(x, ...)
 
 \method{sc_coord}{matrix}(x, ...)
 
@@ -52,7 +49,7 @@ sc_coord(x, ...)
 
 \method{sc_coord}{sfc}(x, ...)
 
-\method{sc_coord}{sfc_GEOMETRYCOLLECTION}(x, ...)
+\method{sc_coord}{pslg}(x, ...)
 
 \method{sc_coord}{MULTIPOLYGON}(x, ...)
 

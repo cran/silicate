@@ -12,6 +12,8 @@ Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/silicate?br
 Status](https://img.shields.io/codecov/c/github/hypertidy/silicate/master.svg)](https://codecov.io/github/hypertidy/silicate?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/silicate)](https://cran.r-project.org/package=silicate)
 [![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/silicate)](https://cran.r-project.org/package=silicate)
+[![R build
+status](https://github.com/hypertidy/silicate/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/silicate/actions)
 
 # Overview
 
@@ -199,56 +201,56 @@ sc_vertex(x)
 #> # A tibble: 14 x 3
 #>       x_    y_ vertex_
 #>    <dbl> <dbl> <chr>  
-#>  1  0     0    4uNW6Q 
-#>  2  0     1    y2gy2d 
-#>  3  0.2   0.2  QsJpbh 
-#>  4  0.2   0.4  j7RDJd 
-#>  5  0.3   0.6  tZBQpa 
-#>  6  0.5   0.2  72miSq 
-#>  7  0.5   0.4  7ztNvX 
-#>  8  0.5   0.7  71CpfF 
-#>  9  0.69  0    r3GjmU 
-#> 10  0.75  1    PNOs0v 
-#> 11  0.8   0.6  nUDkxA 
-#> 12  1     0.8  UGcN4d 
-#> 13  1.1   0.63 8TPh0r 
-#> 14  1.23  0.3  bDj9jz
+#>  1  0     0    BTjJfg 
+#>  2  0     1    Os5aPK 
+#>  3  0.2   0.2  J8G4eF 
+#>  4  0.2   0.4  MCs4EU 
+#>  5  0.3   0.6  nd6fm2 
+#>  6  0.5   0.2  cexo43 
+#>  7  0.5   0.4  zifu2p 
+#>  8  0.5   0.7  acrNba 
+#>  9  0.69  0    Kq3sSr 
+#> 10  0.75  1    LpEEWk 
+#> 11  0.8   0.6  OdWVZU 
+#> 12  1     0.8  r8NZuW 
+#> 13  1.1   0.63 pdkEIF 
+#> 14  1.23  0.3  lXqOcw
 
 sc_edge(x)
 #> # A tibble: 15 x 4
 #>    .vx0   .vx1   path_ edge_ 
 #>    <chr>  <chr>  <int> <chr> 
-#>  1 4uNW6Q y2gy2d     1 Bv7ywl
-#>  2 y2gy2d PNOs0v     1 c7yYv4
-#>  3 PNOs0v UGcN4d     1 v920X2
-#>  4 71CpfF UGcN4d     1 EjEvok
-#>  5 71CpfF nUDkxA     1 3bd9iy
-#>  6 r3GjmU nUDkxA     1 Qtmm8b
-#>  7 4uNW6Q r3GjmU     1 J7q7Tc
-#>  8 QsJpbh 72miSq     2 PhcsCR
-#>  9 72miSq 7ztNvX     2 c1b35B
-#> 10 tZBQpa 7ztNvX     2 GYw0uE
-#> 11 j7RDJd tZBQpa     2 nD0VCf
-#> 12 QsJpbh j7RDJd     2 2NFrMU
-#> 13 nUDkxA 8TPh0r     3 IDTDZB
-#> 14 8TPh0r bDj9jz     3 nfAWTi
-#> 15 r3GjmU bDj9jz     3 YcRFlG
+#>  1 BTjJfg Os5aPK     1 mAEnCR
+#>  2 Os5aPK LpEEWk     1 9V21Nk
+#>  3 LpEEWk r8NZuW     1 oo2Zad
+#>  4 acrNba r8NZuW     1 XxpY1a
+#>  5 acrNba OdWVZU     1 7Rce0p
+#>  6 Kq3sSr OdWVZU     1 g3F3EJ
+#>  7 BTjJfg Kq3sSr     1 JymcBh
+#>  8 J8G4eF cexo43     2 PkVR4T
+#>  9 cexo43 zifu2p     2 XGLFtj
+#> 10 nd6fm2 zifu2p     2 C9pruP
+#> 11 MCs4EU nd6fm2     2 wdao9g
+#> 12 J8G4eF MCs4EU     2 C7Uzol
+#> 13 OdWVZU pdkEIF     3 IjDwzV
+#> 14 pdkEIF lXqOcw     3 xYoBec
+#> 15 Kq3sSr lXqOcw     3 KNTYxL
 
 sc_node(y)
 #> # A tibble: 2 x 1
 #>   vertex_
 #>   <chr>  
-#> 1 goweCx 
-#> 2 3c7YON
+#> 1 JibOO4 
+#> 2 jGfrE0
 
 sc_arc(y)
 #> # A tibble: 4 x 2
 #>   arc_   ncoords_
 #>   <chr>     <int>
-#> 1 ez0JMu        2
-#> 2 LFIhVC        7
-#> 3 Y4rlXs        4
-#> 4 zeSia4        6
+#> 1 2hVvpA        2
+#> 2 F3YaTb        7
+#> 3 HqTb6m        5
+#> 4 yu4nxb        4
 ```
 
 ## silicate models
@@ -291,7 +293,7 @@ be stable with them.
 
 ## Context, and some related projects
 
-The [spacebucket](https://github.com/mdsumner/spacebucket) (arbitrary
+The [spacebucket](https://github.com/mdsumner/polymer) (arbitrary
 multi-layer polygonal overlays) and
 [sphier](https://github.com/hypertidy/sphier/) (generic hierarchies from
 atomic forms) show two different approaches to the problem of

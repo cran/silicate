@@ -14,23 +14,99 @@
 
 <title>silicate-data-model</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -50,7 +126,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -303,12 +379,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(silicate)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; </span></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Attaching package: &#39;silicate&#39;</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; The following object is masked from &#39;package:stats&#39;:</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; </span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;     filter</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(silicate)</span></code></pre></div>
 <p>The silicate package provides tools and data models to work with decompositions of complex data types. The primary examples of use are with spatial data layers and most silicate workflows are geared to using the underlying structures and topology of spatial data. We can use these for a range of activities:</p>
 <ul>
 <li>converting data from one format to another</li>
@@ -323,7 +394,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Silicate itself only inclues <em>ear-clipping</em> triangulation, a relatively cheap method suitable for <em>implicit surfaces using closed paths</em>. A more sophisticated meshing triangulation is available in the <a href="https://github.com/hypertidy/anglr">anglr package</a>. The anglr package is less strict than silicate, and will happily treat many path-based data structures as <em>implicit surfaces</em>, and so we can <code>plot3d()</code> or <code>as.mesh3d()</code> a polygon or line layer and it will do its best to generate a true explicit surface. We can otherwise use the silicate model <code>TRI()</code> or <code>TRI0()</code> or the anglr models <code>DEL()</code> or <code>DEL0()</code> to actually work with the data structure in use (not just a visual side-effect).</p>
 <p>It’s important to know what is the simplest vs more complex ways of creating surfaces. In general, <code>TRI0()</code> is cheapest, and <code>DEL()</code> is most expensive - but the former requires <em>paths</em>, and the latter works with <em>edges</em>. The cheapest one, is TRI0(). TRI() is next expensive (adds visible property, and native orientation, and arbitrary subsetting) … but cheap triangles, next is DEL0() (control over area, angle, Steiner points, Delaunay constraint, etc), then DEL().</p>
 <ul>
-<li>DEL must be composed from edges, and edges can come from any model *TRI must be composed from close paths, there’s no path in SC, ARC or TRI</li>
+<li>DEL must be composed from edges, and edges can come from any model</li>
+<li>TRI must be composed from close paths, there’s no path in SC, ARC or TRI</li>
 <li>DEL0 should exist, and be the default workhorse</li>
 <li>TRI cannot be set-vectorized, we have to call earcut for each POLYGON</li>
 <li>DEL is set-vectorized, classify all triangles by intersection with input paths (or holes)</li>

@@ -1,6 +1,23 @@
-# silicate 0.6.1
+# silicate 0.7.0
 
-* Adopt correct unjoin dependency. 
+* Removed problematic example code. 
+
+* Resubmit to CRAN after missing archival deadline (package in suggests not used conditionally). 
+
+* ARC() really actually finally works. 
+
+* Fixed sc_coord() for Spatial #128. 
+
+* SC0() gains a TRI0 method. 
+
+* Another huge bug fix in ARC() doh. 
+
+* Add `SC()` and `SC0()` for pslg objects. 
+
+* Add function `PATH_from_df()` to generate PATH0 from generic data frame input. 
+
+* Fixed bug in TRI.TRI0 not propagating the object id. 
+
 
 # silicate 0.6.0
 
