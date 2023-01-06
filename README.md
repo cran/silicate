@@ -1,17 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis-CI Build
-Status](http://badges.herokuapp.com/travis/hypertidy/silicate?branch=master&env=BUILD_NAME=trusty_release&label=linux)](https://travis-ci.org/hypertidy/silicate)
-[![Build
-Status](http://badges.herokuapp.com/travis/hypertidy/silicate?branch=master&env=BUILD_NAME=osx_release&label=osx)](https://travis-ci.org/hypertidy/silicate)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/hypertidy/silicate?branch=master&svg=true)](https://ci.appveyor.com/project/mdsumner/silicate)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/hypertidy/silicate/master.svg)](https://codecov.io/github/hypertidy/silicate?branch=master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/silicate)](https://cran.r-project.org/package=silicate)
-[![CRAN\_Download\_Badge](http://cranlogs.r-pkg.org/badges/silicate)](https://cran.r-project.org/package=silicate)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/silicate)](https://cran.r-project.org/package=silicate)
+[![CRAN_Download_Badge](http://cranlogs.r-pkg.org/badges/silicate)](https://cran.r-project.org/package=silicate)
 [![R build
 status](https://github.com/hypertidy/silicate/workflows/R-CMD-check/badge.svg)](https://github.com/hypertidy/silicate/actions)
 
@@ -22,9 +13,9 @@ flexible mesh data structures and visualization.
 
 We aim to provide
 
-  - a *common-form* for representing hierarchical data structures
-  - a *universal converter* between complex data types
-  - topological primitives for analysis and exploration.
+-   a *common-form* for representing hierarchical data structures
+-   a *universal converter* between complex data types
+-   topological primitives for analysis and exploration.
 
 The core of silicate are *worker functions* that are generic and work
 with any kind of data that has hierarchical structure. These functions
@@ -36,17 +27,17 @@ on silicate models themselves.
 We have the following worker verbs, designed to work with many spatial
 data formats and with silicate’s own structures.
 
-  - `sc_object()` - highest level properties, the “features”
-  - `sc_coord()` - all instances of coordinates, labelled by vertex if
+-   `sc_object()` - highest level properties, the “features”
+-   `sc_coord()` - all instances of coordinates, labelled by vertex if
     the source model includes them
-  - `sc_vertex()` - only unique coordinates (in some geometric space)
-  - `sc_path()` - individual paths, sequential traces
-  - `sc_edge()` - unique binary relations, unordered segments (segments
+-   `sc_vertex()` - only unique coordinates (in some geometric space)
+-   `sc_path()` - individual paths, sequential traces
+-   `sc_edge()` - unique binary relations, unordered segments (segments
     and edges are currently under review, and may change)
-  - `sc_segment()` - all instances of edges
-  - `sc_arc()` - unique topological paths, arcs either meet two other
+-   `sc_segment()` - all instances of edges
+-   `sc_arc()` - unique topological paths, arcs either meet two other
     arcs at a node, or include no nodes
-  - `sc_node()` - unique nodes
+-   `sc_node()` - unique nodes
 
 The idea is that each function can return the underlying entities of a
 data object, no matter its underlying format. This interoperability
@@ -95,14 +86,14 @@ used to represent any model, but other models provide a better match to
 specific use-cases, intermediate forms and serve to expand the
 relationships between the model types.
 
-  - `SC` is the universal model, composed of binary relationships, edges
+-   `SC` is the universal model, composed of binary relationships, edges
     defined by pairs of vertices (a structural primitive model)
-  - `TRI` also a structural primitive model, for triangulations
-  - `PATH` a sequential model, for the standard spatial vector types,
+-   `TRI` also a structural primitive model, for triangulations
+-   `PATH` a sequential model, for the standard spatial vector types,
     shapes defined by *paths*
-  - `ARC` a sequential model, for *arc-node topology* a shared-boundary
+-   `ARC` a sequential model, for *arc-node topology* a shared-boundary
     decomposition of path models
-  - `SC0` is a stripped down structural model analogous to `SC`, there
+-   `SC0` is a stripped down structural model analogous to `SC`, there
     are only implicit relations of object to vertices, with a nested
     list of edge indexes
 
@@ -130,7 +121,7 @@ very powerful and general mechanism for a family of consistent packages.
 There is another important function `unjoin()` use to normalize tables
 that have redundant information. The `unjoin()` isthe opposite of the
 database join, and has a nearly identical counterpart in [the dm
-package](https://github.com/krlmlr/dm) with its `decompose_table()`.
+package](https://github.com/cynkra/dm) with its `decompose_table()`.
 Unjoin is the same as `tidyr::nest()` but returns two tables rather than
 splitting one into the rows of other.
 
@@ -198,59 +189,59 @@ Obtain the elements of a known model type.
 
 ``` r
 sc_vertex(x)
-#> # A tibble: 14 x 3
+#> # A tibble: 14 × 3
 #>       x_    y_ vertex_
 #>    <dbl> <dbl> <chr>  
-#>  1  0     0    BTjJfg 
-#>  2  0     1    Os5aPK 
-#>  3  0.2   0.2  J8G4eF 
-#>  4  0.2   0.4  MCs4EU 
-#>  5  0.3   0.6  nd6fm2 
-#>  6  0.5   0.2  cexo43 
-#>  7  0.5   0.4  zifu2p 
-#>  8  0.5   0.7  acrNba 
-#>  9  0.69  0    Kq3sSr 
-#> 10  0.75  1    LpEEWk 
-#> 11  0.8   0.6  OdWVZU 
-#> 12  1     0.8  r8NZuW 
-#> 13  1.1   0.63 pdkEIF 
-#> 14  1.23  0.3  lXqOcw
+#>  1  0     0    n88USC 
+#>  2  0     1    tQxSvg 
+#>  3  0.2   0.2  zpYYIG 
+#>  4  0.2   0.4  1qRN7h 
+#>  5  0.3   0.6  3FN2ty 
+#>  6  0.5   0.2  HInlqb 
+#>  7  0.5   0.4  KHLNO5 
+#>  8  0.5   0.7  gqkZ6j 
+#>  9  0.69  0    yJGoeK 
+#> 10  0.75  1    raggYW 
+#> 11  0.8   0.6  xekZyd 
+#> 12  1     0.8  XBwKMi 
+#> 13  1.1   0.63 9fpRi6 
+#> 14  1.23  0.3  0mxEDK
 
 sc_edge(x)
-#> # A tibble: 15 x 4
+#> # A tibble: 15 × 4
 #>    .vx0   .vx1   path_ edge_ 
 #>    <chr>  <chr>  <int> <chr> 
-#>  1 BTjJfg Os5aPK     1 mAEnCR
-#>  2 Os5aPK LpEEWk     1 9V21Nk
-#>  3 LpEEWk r8NZuW     1 oo2Zad
-#>  4 acrNba r8NZuW     1 XxpY1a
-#>  5 acrNba OdWVZU     1 7Rce0p
-#>  6 Kq3sSr OdWVZU     1 g3F3EJ
-#>  7 BTjJfg Kq3sSr     1 JymcBh
-#>  8 J8G4eF cexo43     2 PkVR4T
-#>  9 cexo43 zifu2p     2 XGLFtj
-#> 10 nd6fm2 zifu2p     2 C9pruP
-#> 11 MCs4EU nd6fm2     2 wdao9g
-#> 12 J8G4eF MCs4EU     2 C7Uzol
-#> 13 OdWVZU pdkEIF     3 IjDwzV
-#> 14 pdkEIF lXqOcw     3 xYoBec
-#> 15 Kq3sSr lXqOcw     3 KNTYxL
+#>  1 n88USC tQxSvg     1 mHkjqV
+#>  2 tQxSvg raggYW     1 knBf33
+#>  3 raggYW XBwKMi     1 NQVyd6
+#>  4 gqkZ6j XBwKMi     1 avIufa
+#>  5 gqkZ6j xekZyd     1 TCSls3
+#>  6 yJGoeK xekZyd     1 AAMn9v
+#>  7 n88USC yJGoeK     1 CwiGwr
+#>  8 zpYYIG HInlqb     2 naREkh
+#>  9 HInlqb KHLNO5     2 TptXFI
+#> 10 3FN2ty KHLNO5     2 3nlZMA
+#> 11 1qRN7h 3FN2ty     2 eXVs6C
+#> 12 zpYYIG 1qRN7h     2 AwOvSP
+#> 13 xekZyd 9fpRi6     3 gIpLK6
+#> 14 9fpRi6 0mxEDK     3 OnFWZr
+#> 15 yJGoeK 0mxEDK     3 q1WBzB
 
 sc_node(y)
-#> # A tibble: 2 x 1
+#> # A tibble: 2 × 1
 #>   vertex_
 #>   <chr>  
-#> 1 JibOO4 
-#> 2 jGfrE0
+#> 1 yUZl0a 
+#> 2 Z0xCkI
 
 sc_arc(y)
-#> # A tibble: 4 x 2
+#> # A tibble: 4 × 2
 #>   arc_   ncoords_
 #>   <chr>     <int>
-#> 1 2hVvpA        2
-#> 2 F3YaTb        7
-#> 3 HqTb6m        5
-#> 4 yu4nxb        4
+#> 1 bpKiyx        4
+#> 2 oSxSsU        5
+#> 3 q3ZSRx        7
+#> 4 yUVgqO        2
 ```
 
 ## silicate models
@@ -322,8 +313,8 @@ As work continues some of these will be incorporated into the silicate
 core, when that is possible without requiring heavy external
 dependencies.
 
-  - [scgraph](https://github.com/hypertidy/scgraph)
-  - [scspatstat](https://github.com/hypertidy/scspatstat)
+-   [scgraph](https://github.com/hypertidy/scgraph)
+-   [scspatstat](https://github.com/hypertidy/scspatstat)
 
 Looking for a music reference? I always am: Child’s Play, by Carcass.
 
