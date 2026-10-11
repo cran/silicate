@@ -57,5 +57,5 @@ plot(NA, xlim = c(625000, 1060000), ylim = c(-1350000,  -550000))
 plot(tri, add = TRUE)
 
 ## ----sfdct,eval=FALSE---------------------------------------------------------
-#  #plot(sfdct::ct_triangulate(minimal_mesh))
+# #plot(sfdct::ct_triangulate(minimal_mesh))
 

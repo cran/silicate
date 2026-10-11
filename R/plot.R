@@ -36,6 +36,7 @@ sc_colours <- function(x = 16, ..., viridis = FALSE) {
 #' @param x sc object
 #' @param ... arguments passed to lower level plotting functions
 #' @param add if `TRUE` add to current plot
+#' @return `NULL`, invisibly; called for the side effect of plotting.
 #' @export
 #' @rdname plot.SC
 #' @importFrom graphics plot

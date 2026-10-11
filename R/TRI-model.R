@@ -17,9 +17,9 @@ triangulate_0 <- function(x, ...) {
     for (j in seq_along(subobjlist)) {
       itri <- itri + 1
       verts <- subobjlist[[j]] %>%
-        dplyr::select(.data$object_, .data$path_) %>%
+        dplyr::select("object_", "path_") %>%
         dplyr::inner_join(x$path[c("path_", "object_")], "path_") %>%
-        dplyr::select(.data$path_) %>%
+        dplyr::select("path_") %>%
         dplyr::inner_join(x$path_link_vertex, "path_") %>%
         dplyr::inner_join(x$vertex, "vertex_")
       holes <- which(c(0, abs(diff(as.integer(as.factor(verts$path_))))) > 0)
@@ -72,6 +72,8 @@ TRI.mesh3d <- function(x, ...) {
 TRI.TRI <- function(x, ...) {
   x
 }
+#' @name TRI
+#' @export
 TRI.SC <- function(x, ...) {
   stop("constrained triangulation not supported, use anglr::DEL or reconstruct as PATH")
 }
@@ -122,7 +124,7 @@ TRI.PATH <- function(x, ...) {
     ##x$path$subobject <- 1
     x$path <- x$path %>% dplyr::group_by(.data$object_) %>%
       dplyr::mutate(subobject = row_number(),
-                    #subobject = .data$subobject_,
+
                     object = .data$object_) %>%
       dplyr::ungroup()
   }

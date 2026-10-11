@@ -7,6 +7,7 @@
 build_sf <- function(x, ...) {
   UseMethod("build_sf")
 }
+#' @exportS3Method silicate::build_sf
 build_sf.PATH <- function(x, ...) {
   out <- x$object
   agr <- factor(setNames(rep(NA_integer_, ncol(out)), names(out)))
@@ -22,6 +23,7 @@ build_sf.PATH <- function(x, ...) {
 build_sfc <- function(x, ...) {
   UseMethod("build_sfc")
 }
+#' @exportS3Method silicate::build_sfc
 build_sfc.PATH <- function(x, ...) {
   raw_build_sfc(x$path, x$path_link_vertex %>% dplyr::inner_join(x$vertex, "vertex_"),
                crs = x$meta$proj[1])
@@ -31,7 +33,7 @@ raw_build_sfc <- function(gm, coords_in, crs = NULL, force_close = FALSE) {
   if (!"subobject" %in% names(gm)) gm$subobject <- 1
   if (!"nrow" %in% names(gm)) gm$nrow = gm$ncoords_
   glist <- vector("list", length(unique(gm$object_)))
-  coords_in <- gm %>% dplyr::select(.data$object_, .data$subobject) %>%
+  coords_in <- gm %>% dplyr::select("object_", "subobject") %>%
     #dplyr::select(-type, -ncol, -nrow) %>%
     dplyr::slice(rep(seq_len(nrow(gm)), gm$nrow)) %>%
     dplyr::bind_cols(coords_in)
